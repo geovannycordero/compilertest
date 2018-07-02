@@ -1,0 +1,20 @@
+public class Examen{
+
+    metodo(int n){
+
+    }
+
+
+    int ornitorrinco, orden_66, es42 // ? 
+
+    //Se deben declarar estas tres variables antes?
+
+    ornitorrinco, orden_66, es42 = metodo(3)
+
+    print es42
+
+    print ornitorrinco
+
+    print orden_66
+
+}

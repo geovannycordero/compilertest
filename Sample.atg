@@ -1,0 +1,32 @@
+COMPILER Sample
+
+public SymbolTable tab;
+public CodeGenerator gen;
+
+/* ************ global fields and methods ************ */
+
+void print(String message){
+    System.out.println(message);
+}
+
+CHARACTERS
+	digit = '0' .. '9'.
+	letter = 'A'..'Z' + 'a'..'z'.
+
+TOKENS
+	var = letter {letter | digit | '_'}.
+	number = digit {digit}.
+
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM "//" TO '\r' '\n'
+
+IGNORE '\r' + '\n' + '\t'
+
+PRODUCTIONS
+	
+	Sample
+	= "ok"
+	.
+
+END Sample.
+

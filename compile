@@ -1,0 +1,11 @@
+'
+    Geovanny Cordero Valverde
+'
+
+rm out/*.class
+
+java -jar Coco.jar Sample.atg
+
+javac -d out/ -Xlint *.java
+
+rm *.java.old
