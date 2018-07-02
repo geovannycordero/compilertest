@@ -1,20 +1,7 @@
-public class Examen{
+ornitorrinco, orden_66, es42 = metodo(3);
 
-    metodo(int n){
-        k = get()
-    }
+print es42; 
 
+print orn_itorrinco;
 
-    int ornitorrinco, orden_66, es42 // ? 
-
-    //Se deben declarar estas tres variables antes?
-
-    ornitorrinco, orden_66, es42 = metodo(3)
-
-    print es42
-
-    print ornitorrinco
-
-    print orden_66
-
-}
+print orden_66;

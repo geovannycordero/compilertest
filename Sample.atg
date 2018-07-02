@@ -10,7 +10,7 @@ void print(String message){
 }
 
 CHARACTERS
-	digit = '0' .. '9'.
+	digit = '0'..'9'.
 	letter = 'A'..'Z' + 'a'..'z'.
 
 TOKENS
@@ -25,7 +25,33 @@ IGNORE '\r' + '\n' + '\t'
 PRODUCTIONS
 	
 	Sample
-	= "ok"
+	= Statement {Prints}
+	.
+
+	Prints
+	=
+	"print"
+	var
+	';'
+	.
+
+	Statement
+	=
+	Variables
+	'='
+	Method
+	';'
+	.
+
+	Variables
+	=
+	var
+	{ ',' var }
+	.
+
+	Method
+	=
+	var '(' number ')'
 	.
 
 END Sample.

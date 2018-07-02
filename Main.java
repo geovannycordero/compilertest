@@ -3,6 +3,6 @@ public class Main {
         Scanner scanner = new Scanner(arg[0]);
         Parser parser = new Parser(scanner);
         parser.Parse();
-        System.out.println("\n" + parser.errors.count + "errors found!\n");
+        System.out.println("\n" + parser.errors.count + " errors found!");
     }   
 } 
