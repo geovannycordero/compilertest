@@ -35,23 +35,28 @@ PRODUCTIONS
 	';'
 	.
 
-	Statement
+	Statement								(. int nVars, nIn; .)
 	=
-	Variables
+	Variables<out nVars>
 	'='
-	Method
-	';'
+	Method<out nIn>
+	';'										(. if(nVars != nIn) SemErr("El par'ametro no coincide con el n'umero de variables indicado.");.)
 	.
 
-	Variables
+	Variables<out int numVars>				(. numVars = 0; .)
 	=
-	var
-	{ ',' var }
+	var										(. numVars++; .)
+	{ ',' 
+	var										(. numVars++; .)
+	}
 	.
 
-	Method
+	Method<out int n>						(. n = 0; .)
 	=
-	var '(' number ')'
+	"metodo"
+	'('
+	number									(. n = Integer.parseInt(t.val); .)
+	')'
 	.
 
 END Sample.

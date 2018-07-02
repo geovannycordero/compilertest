@@ -3,7 +3,7 @@ public class Parser {
 	public static final int _EOF = 0;
 	public static final int _var = 1;
 	public static final int _number = 2;
-	public static final int maxT = 9;
+	public static final int maxT = 10;
 
 	static final boolean _T = true;
 	static final boolean _x = false;
@@ -93,10 +93,12 @@ void print(String message){
 	}
 
 	void Statement() {
-		Variables();
+		int nVars, nIn; 
+		nVars = Variables();
 		Expect(5);
-		Method();
+		nIn = Method();
 		Expect(4);
+		if(nVars != nIn) SemErr("El par'ametro no coincide con el n'umero de variables indicado.");
 	}
 
 	void Prints() {
@@ -105,19 +107,28 @@ void print(String message){
 		Expect(4);
 	}
 
-	void Variables() {
+	int  Variables() {
+		int  numVars;
+		numVars = 0; 
 		Expect(1);
+		numVars++; 
 		while (la.kind == 6) {
 			Get();
 			Expect(1);
+			numVars++; 
 		}
+		return numVars;
 	}
 
-	void Method() {
-		Expect(1);
+	int  Method() {
+		int  n;
+		n = 0; 
 		Expect(7);
-		Expect(2);
 		Expect(8);
+		Expect(2);
+		n = Integer.parseInt(t.val); 
+		Expect(9);
+		return n;
 	}
 
 
@@ -132,7 +143,7 @@ void print(String message){
 	}
 
 	private static final boolean[][] set = {
-		{_T,_x,_x,_x, _x,_x,_x,_x, _x,_x,_x}
+		{_T,_x,_x,_x, _x,_x,_x,_x, _x,_x,_x,_x}
 
 	};
 } // end Parser
@@ -164,9 +175,10 @@ class Errors {
 			case 4: s = "\";\" expected"; break;
 			case 5: s = "\"=\" expected"; break;
 			case 6: s = "\",\" expected"; break;
-			case 7: s = "\"(\" expected"; break;
-			case 8: s = "\")\" expected"; break;
-			case 9: s = "??? expected"; break;
+			case 7: s = "\"metodo\" expected"; break;
+			case 8: s = "\"(\" expected"; break;
+			case 9: s = "\")\" expected"; break;
+			case 10: s = "??? expected"; break;
 			default: s = "error " + n; break;
 		}
 		printMsg(line, col, s);

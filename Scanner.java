@@ -250,8 +250,8 @@ class StartStates {
 public class Scanner {
 	static final char EOL = '\n';
 	static final int  eofSym = 0;
-	static final int maxT = 9;
-	static final int noSym = 9;
+	static final int maxT = 10;
+	static final int noSym = 10;
 
 
 	public Buffer buffer; // scanner buffer
@@ -286,6 +286,7 @@ public class Scanner {
 		start.set(41, 7); 
 		start.set(Buffer.EOF, -1);
 		literals.put("print", new Integer(3));
+		literals.put("metodo", new Integer(7));
 
 	}
 	
@@ -440,9 +441,9 @@ public class Scanner {
 				case 5:
 					{t.kind = 6; break loop;}
 				case 6:
-					{t.kind = 7; break loop;}
-				case 7:
 					{t.kind = 8; break loop;}
+				case 7:
+					{t.kind = 9; break loop;}
 
 			}
 		}
