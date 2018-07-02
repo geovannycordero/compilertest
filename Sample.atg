@@ -45,17 +45,23 @@ PRODUCTIONS
 
 	Variables<out int numVars>				(. numVars = 0; .)
 	=
-	var										(. numVars++; .)
+	VarName<out vName0>						(. numVars++; .)
 	{ ',' 
-	var										(. numVars++; .)
+	VarName<out vName>						(. numVars++; .)
 	}
 	.
 
+	VarName<out String varName>
+	= 
+	var										(. varName = t.val; .)
+	.
+	
 	Method<out int n>						(. n = 0; .)
 	=
 	"metodo"
 	'('
-	number									(. n = Integer.parseInt(t.val); .)
+	number									(. n = Integer.parseInt(t.val);
+											if(n > 6) SemErr("El par'ametro debe ser menor o igual a cinco."); .)
 	')'
 	.
 

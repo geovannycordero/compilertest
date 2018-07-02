@@ -114,7 +114,7 @@ void print(String message){
 		numVars++; 
 		while (la.kind == 6) {
 			Get();
-			vName = VarName();
+			vName1 = VarName();
 			numVars++; 
 		}
 		return numVars;
