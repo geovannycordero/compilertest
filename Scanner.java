@@ -352,13 +352,10 @@ public class Scanner {
 		if (ch == '/') {
 			NextCh();
 			for(;;) {
-				if (ch == 13) {
+				if (ch == 10) {
+					level--;
+					if (level == 0) { oldEols = line - line0; NextCh(); return true; }
 					NextCh();
-					if (ch == 10) {
-						level--;
-						if (level == 0) { oldEols = line - line0; NextCh(); return true; }
-						NextCh();
-					}
 				} else if (ch == Buffer.EOF) return false;
 				else NextCh();
 			}

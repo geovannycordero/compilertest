@@ -17,7 +17,7 @@ public class Parser {
 	public Errors errors;
 
 	public SymbolTable tab;
-//public CodeGenerator gen;
+public CodeGenerator gen = new CodeGenerator();
 
 
 
@@ -80,11 +80,12 @@ public class Parser {
 	}
 	
 	void Sample() {
-		tab = new SymbolTable(); 
+		tab = new SymbolTable(); /* CodeGenerator gen = new CodeGenerator(); */ gen.initFile(); 
 		Statement();
 		while (la.kind == 9) {
 			Prints();
 		}
+		gen.closeFile(); 
 	}
 
 	void Statement() {
@@ -99,7 +100,8 @@ public class Parser {
 	void Prints() {
 		Expect(9);
 		Expect(1);
-		if(tab.find(t.val) == null) SemErr("Variable " + t.val + " no existe."); 
+		if(tab.find(t.val) == null){ SemErr("Variable " + t.val + " no existe."); }
+		else{ gen.printVal(t.val); } 
 		Expect(4);
 	}
 
@@ -107,12 +109,12 @@ public class Parser {
 		int  numVars;
 		numVars = 0; String vName, vName0; 
 		vName0 = VarName();
-		numVars++; tab.insert(t.val); 
+		numVars++; tab.insert(t.val); System.out.println(t.val); gen.insert(t.val); System.out.println(t.val); 
 		while (la.kind == 5) {
 			Get();
 			vName = VarName();
 			if(tab.find(t.val) != null){ SemErr("Nombre de variable " + t.val + " ya existe.");}
-			else{ tab.insert(t.val); numVars++; }
+			else{ tab.insert(t.val); numVars++; gen.insert(t.val); }
 			
 		}
 		return numVars;

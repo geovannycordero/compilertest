@@ -1,9 +1,12 @@
 import java.io.*;
+import java.util.*;
 
 public class CodeGenerator{
 	int rc;
 	Hashtable registers;
 	PrintWriter writer;
+    Enumeration names;
+    String str;
 	
 	public CodeGenerator(){
 		try{
@@ -15,28 +18,52 @@ public class CodeGenerator{
 		}
 	}
 	
+	
+	public void ver(){
+		names = registers.keys();
+	      
+	      while(names.hasMoreElements()) {
+	         str = (String) names.nextElement();
+	         System.out.println(str + ": " + registers.get(str));
+	      }        
+	      System.out.println();
+	}
+	
 	public void initFile(){
-		writer.println("# Geovanny Cordero Valverde\n# B42057\n\n");
-			writer.println("	.data\nvalue .word 0\n\n	.text\n		start:\n");
+		try{
+			writer.println("# Geovanny Cordero Valverde\n# B42057\n\n");
+			writer.println("	.data\n\n	.text\n		start:\n");
+		}
+		catch(Exception e){}
 	}
 	
 	public void closeFile(){
-		writer.println("	main:\n		j start");
-		writer.close();
+		try{
+			
+			writer.println("			li  $v0, 10     # 10 is the exit syscall.\n			syscall\n");
+			writer.println("main:\n		j start");
+			writer.close();
+		}
+		catch(Exception e){}
 	}
 	
 	public void insert(String nVariable){
-		registers.put(nVariable, rc);
-		writer.println("		li t" + rc + ", " + val + "\n");
-		writer.println("		li $v0, 5\n		syscall");
-		writer.println("		sw $v0, value\n		lw $t" + rc + ", value");
-		rc++;
+		try{
+			registers.put(nVariable, rc);
+			writer.println("			li $v0, 5\n			syscall			# insert " + nVariable);
+			writer.println("			move $t" + rc + ", $v0\n");
+			rc++;
+		}
+		catch(Exception e){}
 	}
 
 	public void printVal(String varName){
-		if(varNames.get(name) != null){
-            writer.println("		li $a0, t" + (String)varNames.get(varName));
-			writer.println("		li $v0, 4\n		syscall");
+		if(registers.get(varName) != null){
+			//try{
+	            writer.println("			move $a0, $t" + registers.get(varName));
+				writer.println("			li $v0, 1\n			syscall			# print "  + varName + "\n");
+			//}
+			//catch(Exception e){}
         }
 		else{
 			System.out.println("Variable " + varName + " no usada. Imposible imprimir.");
