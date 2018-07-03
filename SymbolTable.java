@@ -1,12 +1,21 @@
+import java.util.*;
+
 public class SymbolTable{
-    Obj topScope;
-    public SymbolTable(Parser parser){}
-    public Obj insert(String name, int kind, int type){
-        return null;
+    
+    Hashtable varNames;
+    
+    public SymbolTable(){
+        varNames = new Hashtable();    
     }
-    public Obj find(String name){
-        return null;
+    
+    public String insert(String name){
+        varNames.put(name, name);
+        return name;
     }
-    public void openScope(){}
-    public void closeScope(){}
+    public String find(String name){
+        String ret = null;
+        if(varNames.get(name) != null) ret = (String)varNames.get(name);
+        return ret;
+    }
+    
 }

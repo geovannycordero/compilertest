@@ -1,6 +1,12 @@
-ornitorrinco, orden_66, es42 = metodo(3);
+ornitorrinco, vvvv, es42 = metodo(3);
 
-print es42; 
+/*
+sahdkgfskaldfb
+*/
+
+print es42;
+
+//gfdsfdfg
 
 print orn_itorrinco;
 

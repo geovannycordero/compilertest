@@ -17,7 +17,7 @@ public class Parser {
 	public Errors errors;
 
 	public SymbolTable tab;
-public CodeGenerator gen;
+//public CodeGenerator gen;
 
 /* ************ global fields and methods ************ */
 
@@ -86,6 +86,7 @@ void print(String message){
 	}
 	
 	void Sample() {
+		tab = new SymbolTable(); 
 		Statement();
 		while (la.kind == 3) {
 			Prints();
@@ -109,12 +110,16 @@ void print(String message){
 
 	int  Variables() {
 		int  numVars;
-		numVars = 0; 
-		vName = VarName();
+		numVars = 0;
+		String vName, vName0; 
+		vName0 = VarName();
 		numVars++; 
+		tab.insert(t.val);
+		
 		while (la.kind == 6) {
 			Get();
 			vName = VarName();
+			if(tab.find(t.val) != null) SemErr("Nombre de variable " + t.val + " ya existe.");
 			numVars++; 
 		}
 		return numVars;
@@ -127,7 +132,7 @@ void print(String message){
 		Expect(8);
 		Expect(2);
 		n = Integer.parseInt(t.val);
-		if(n > 6) SemErr("El par'ametro debe ser menor o igual a cinco."); 
+		if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis."); 
 		Expect(9);
 		return n;
 	}
