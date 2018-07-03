@@ -105,23 +105,14 @@ public class Parser {
 
 	int  Variables() {
 		int  numVars;
-		numVars = 0;
-		String vName, vName0; 
-		
+		numVars = 0; String vName, vName0; 
 		vName0 = VarName();
-		numVars++; 
-		tab.insert(t.val);
-		
+		numVars++; tab.insert(t.val); 
 		while (la.kind == 5) {
 			Get();
 			vName = VarName();
-			if(tab.find(t.val) != null){
-			SemErr("Nombre de variable " + t.val + " ya existe.");
-			}
-			else{
-			tab.insert(t.val);
-			numVars++;
-			}
+			if(tab.find(t.val) != null){ SemErr("Nombre de variable " + t.val + " ya existe.");}
+			else{ tab.insert(t.val); numVars++; }
 			
 		}
 		return numVars;
@@ -134,7 +125,8 @@ public class Parser {
 		Expect(7);
 		Expect(2);
 		try{ n = Integer.parseInt(t.val); } catch(Exception e){}
-		if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis."); 
+		if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis.");
+		
 		Expect(8);
 		return n;
 	}

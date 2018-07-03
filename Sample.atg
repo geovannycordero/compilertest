@@ -1,7 +1,7 @@
 COMPILER Sample
 
 public SymbolTable tab;
-//public CodeGenerator gen;
+public CodeGenerator gen;
 
 CHARACTERS
 	digit = '0'..'9'.
@@ -18,7 +18,7 @@ IGNORE '\r' + '\n' + '\t'
 
 PRODUCTIONS
 	
-	Sample								(. tab = new SymbolTable(); .)
+	Sample								(. tab = new SymbolTable(); CodeGenerator gen = new CodeGenerator(); gen.initFile(); .)
 	= Statement {Prints}
 	.
 
