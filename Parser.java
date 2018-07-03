@@ -19,12 +19,6 @@ public class Parser {
 	public SymbolTable tab;
 //public CodeGenerator gen;
 
-/* ************ global fields and methods ************ */
-
-void print(String message){
-    System.out.println(message);
-}
-
 
 
 	public Parser(Scanner scanner) {
@@ -88,7 +82,7 @@ void print(String message){
 	void Sample() {
 		tab = new SymbolTable(); 
 		Statement();
-		while (la.kind == 3) {
+		while (la.kind == 9) {
 			Prints();
 		}
 	}
@@ -96,15 +90,16 @@ void print(String message){
 	void Statement() {
 		int nVars, nIn; 
 		nVars = Variables();
-		Expect(5);
+		Expect(3);
 		nIn = Method();
 		Expect(4);
 		if(nVars != nIn) SemErr("El par'ametro no coincide con el n'umero de variables indicado.");
 	}
 
 	void Prints() {
-		Expect(3);
+		Expect(9);
 		Expect(1);
+		if(tab.find(t.val) == null) SemErr("Variable " + t.val + " no existe."); 
 		Expect(4);
 	}
 
@@ -112,15 +107,22 @@ void print(String message){
 		int  numVars;
 		numVars = 0;
 		String vName, vName0; 
+		
 		vName0 = VarName();
 		numVars++; 
 		tab.insert(t.val);
 		
-		while (la.kind == 6) {
+		while (la.kind == 5) {
 			Get();
 			vName = VarName();
-			if(tab.find(t.val) != null) SemErr("Nombre de variable " + t.val + " ya existe.");
-			numVars++; 
+			if(tab.find(t.val) != null){
+			SemErr("Nombre de variable " + t.val + " ya existe.");
+			}
+			else{
+			tab.insert(t.val);
+			numVars++;
+			}
+			
 		}
 		return numVars;
 	}
@@ -128,12 +130,12 @@ void print(String message){
 	int  Method() {
 		int  n;
 		n = 0; 
+		Expect(6);
 		Expect(7);
-		Expect(8);
 		Expect(2);
-		n = Integer.parseInt(t.val);
+		try{ n = Integer.parseInt(t.val); } catch(Exception e){}
 		if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis."); 
-		Expect(9);
+		Expect(8);
 		return n;
 	}
 
@@ -184,13 +186,13 @@ class Errors {
 			case 0: s = "EOF expected"; break;
 			case 1: s = "var expected"; break;
 			case 2: s = "number expected"; break;
-			case 3: s = "\"print\" expected"; break;
+			case 3: s = "\"=\" expected"; break;
 			case 4: s = "\";\" expected"; break;
-			case 5: s = "\"=\" expected"; break;
-			case 6: s = "\",\" expected"; break;
-			case 7: s = "\"metodo\" expected"; break;
-			case 8: s = "\"(\" expected"; break;
-			case 9: s = "\")\" expected"; break;
+			case 5: s = "\",\" expected"; break;
+			case 6: s = "\"metodo\" expected"; break;
+			case 7: s = "\"(\" expected"; break;
+			case 8: s = "\")\" expected"; break;
+			case 9: s = "\"print\" expected"; break;
 			case 10: s = "??? expected"; break;
 			default: s = "error " + n; break;
 		}

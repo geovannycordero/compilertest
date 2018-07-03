@@ -3,19 +3,13 @@ COMPILER Sample
 public SymbolTable tab;
 //public CodeGenerator gen;
 
-/* ************ global fields and methods ************ */
-
-void print(String message){
-    System.out.println(message);
-}
-
 CHARACTERS
 	digit = '0'..'9'.
 	letter = 'A'..'Z' + 'a'..'z'.
 
 TOKENS
 	var = letter {letter | digit | '_'}.
-	number = digit {digit}.
+	number = ['-'] digit {digit}.
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO '\r' '\n'
@@ -28,13 +22,6 @@ PRODUCTIONS
 	= Statement {Prints}
 	.
 
-	Prints
-	=
-	"print"
-	var
-	';'
-	.
-
 	Statement							(. int nVars, nIn; .)
 	=
 	Variables<out nVars>
@@ -43,15 +30,14 @@ PRODUCTIONS
 	';'									(. if(nVars != nIn) SemErr("El par'ametro no coincide con el n'umero de variables indicado.");.)
 	.
 
-	Variables<out int numVars>			(. numVars = 0;
-											String vName, vName0; .)
+	Variables<out int numVars>			(. numVars = 0; String vName, vName0; .)
 	=
-	VarName<out vName0>					(. numVars++; 
-										tab.insert(t.val);
-										.)
+	VarName<out vName0>					(. numVars++; tab.insert(t.val); .)
 	{ ',' 
-	VarName<out vName>					(. if(tab.find(t.val) != null) SemErr("Nombre de variable " + t.val + " ya existe.");
-										numVars++; .)
+	VarName<out vName>					(. 
+										if(tab.find(t.val) != null){ SemErr("Nombre de variable " + t.val + " ya existe.");}
+										else{ tab.insert(t.val); numVars++; }
+										.)
 	}
 	.
 
@@ -64,9 +50,18 @@ PRODUCTIONS
 	=
 	"metodo"
 	'('
-	number								(. n = Integer.parseInt(t.val);
-										if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis."); .)
+	number								(.
+										try{ n = Integer.parseInt(t.val); } catch(Exception e){}
+										if(n > 6 || n < 1) SemErr("El par'ametro debe ser mayor a cero y menor a seis.");
+										.)
 	')'
+	.
+
+	Prints
+	=
+	"print"
+	var									(. if(tab.find(t.val) == null) SemErr("Variable " + t.val + " no existe."); .)
+	';'
 	.
 
 END Sample.

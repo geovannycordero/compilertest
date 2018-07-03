@@ -278,15 +278,16 @@ public class Scanner {
 		literals = new HashMap();
 		for (int i = 65; i <= 90; ++i) start.set(i, 1);
 		for (int i = 97; i <= 122; ++i) start.set(i, 1);
-		for (int i = 48; i <= 57; ++i) start.set(i, 2);
-		start.set(59, 3); 
+		for (int i = 48; i <= 57; ++i) start.set(i, 3);
+		start.set(45, 2); 
 		start.set(61, 4); 
-		start.set(44, 5); 
-		start.set(40, 6); 
-		start.set(41, 7); 
+		start.set(59, 5); 
+		start.set(44, 6); 
+		start.set(40, 7); 
+		start.set(41, 8); 
 		start.set(Buffer.EOF, -1);
-		literals.put("print", new Integer(3));
-		literals.put("metodo", new Integer(7));
+		literals.put("metodo", new Integer(6));
+		literals.put("print", new Integer(9));
 
 	}
 	
@@ -431,19 +432,22 @@ public class Scanner {
 					if (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z' || ch == '_' || ch >= 'a' && ch <= 'z') {AddCh(); state = 1; break;}
 					else {t.kind = 1; t.val = new String(tval, 0, tlen); CheckLiteral(); return t;}
 				case 2:
-					recEnd = pos; recKind = 2;
-					if (ch >= '0' && ch <= '9') {AddCh(); state = 2; break;}
-					else {t.kind = 2; break loop;}
+					if (ch >= '0' && ch <= '9') {AddCh(); state = 3; break;}
+					else {state = 0; break;}
 				case 3:
-					{t.kind = 4; break loop;}
+					recEnd = pos; recKind = 2;
+					if (ch >= '0' && ch <= '9') {AddCh(); state = 3; break;}
+					else {t.kind = 2; break loop;}
 				case 4:
-					{t.kind = 5; break loop;}
+					{t.kind = 3; break loop;}
 				case 5:
-					{t.kind = 6; break loop;}
+					{t.kind = 4; break loop;}
 				case 6:
-					{t.kind = 8; break loop;}
+					{t.kind = 5; break loop;}
 				case 7:
-					{t.kind = 9; break loop;}
+					{t.kind = 7; break loop;}
+				case 8:
+					{t.kind = 8; break loop;}
 
 			}
 		}

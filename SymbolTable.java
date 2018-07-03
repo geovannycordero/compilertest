@@ -12,9 +12,12 @@ public class SymbolTable{
         varNames.put(name, name);
         return name;
     }
+    
     public String find(String name){
         String ret = null;
-        if(varNames.get(name) != null) ret = (String)varNames.get(name);
+        if(varNames.get(name) != null){
+            ret = (String)varNames.get(name);
+        }
         return ret;
     }
     
