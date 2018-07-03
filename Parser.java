@@ -108,11 +108,11 @@ public CodeGenerator gen = new CodeGenerator();
 	int  Variables() {
 		int  numVars;
 		numVars = 0; String vName, vName0; 
-		vName0 = VarName();
-		numVars++; tab.insert(t.val); System.out.println(t.val); gen.insert(t.val); System.out.println(t.val); 
+		Expect(1);
+		numVars++; tab.insert(t.val); gen.insert(t.val); 
 		while (la.kind == 5) {
 			Get();
-			vName = VarName();
+			Expect(1);
 			if(tab.find(t.val) != null){ SemErr("Nombre de variable " + t.val + " ya existe.");}
 			else{ tab.insert(t.val); numVars++; gen.insert(t.val); }
 			
@@ -131,13 +131,6 @@ public CodeGenerator gen = new CodeGenerator();
 		
 		Expect(8);
 		return n;
-	}
-
-	String  VarName() {
-		String  varName;
-		Expect(1);
-		varName = t.val; 
-		return varName;
 	}
 
 
