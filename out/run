@@ -1,2 +1,4 @@
 
 java Main ../try.txt
+
+spim -file file.s

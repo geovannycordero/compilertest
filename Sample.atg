@@ -1,27 +1,28 @@
 COMPILER Sample
 
 public SymbolTable tab;
-//public CodeGenerator gen;
+public CodeGenerator gen = new CodeGenerator();
 
 CHARACTERS
 	digit = '0'..'9'.
 	letter = 'A'..'Z' + 'a'..'z'.
+	lf = '\u000a'.
 
 TOKENS
 	var = letter {letter | digit | '_'}.
 	number = ['-'] digit {digit}.
 
 COMMENTS FROM "/*" TO "*/" NESTED
-COMMENTS FROM "//" TO '\r' '\n'
+COMMENTS FROM "//" TO lf
 
 IGNORE '\r' + '\n' + '\t'
 
 PRODUCTIONS
 	
-	Sample								(. tab = new SymbolTable(); .)
-	= Statement {Prints}
+	Sample								(. tab = new SymbolTable(); /* CodeGenerator gen = new CodeGenerator(); */ gen.initFile(); .)
+	= Statement {Prints}				(. gen.closeFile(); .)
 	.
-
+	
 	Statement							(. int nVars, nIn; .)
 	=
 	Variables<out nVars>
@@ -32,20 +33,15 @@ PRODUCTIONS
 
 	Variables<out int numVars>			(. numVars = 0; String vName, vName0; .)
 	=
-	VarName<out vName0>					(. numVars++; tab.insert(t.val); .)
+	var									(. numVars++; tab.insert(t.val); gen.insert(t.val); .)
 	{ ',' 
-	VarName<out vName>					(. 
+	var									(. 
 										if(tab.find(t.val) != null){ SemErr("Nombre de variable " + t.val + " ya existe.");}
-										else{ tab.insert(t.val); numVars++; }
+										else{ tab.insert(t.val); numVars++; gen.insert(t.val); }
 										.)
 	}
 	.
 
-	VarName<out String varName>
-	= 
-	var									(. varName = t.val; .)
-	.
-	
 	Method<out int n>					(. n = 0; .)
 	=
 	"metodo"
@@ -60,7 +56,8 @@ PRODUCTIONS
 	Prints
 	=
 	"print"
-	var									(. if(tab.find(t.val) == null) SemErr("Variable " + t.val + " no existe."); .)
+	var									(. if(tab.find(t.val) == null){ SemErr("Variable " + t.val + " no existe."); }
+										else{ gen.printVal(t.val); } .)
 	';'
 	.
 
